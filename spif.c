@@ -36,7 +36,11 @@
 #define SPIF_CMD_UNIQUEID 0x4B
 #define SPIF_CMD_WRITEDISABLE 0x04
 #define SPIF_CMD_READSTATUS1 0x05
-#define SPIF_CMD_READSTATUS2 0x35
+#ifdef (SPIF_PLATFORM == SPIF_PLATFORM_OCTOSPI)
+  #define SPIF_CMD_ENABLE_QPI_MODE 0x35
+#else
+  #define SPIF_CMD_READSTATUS2 0x35
+#endif
 #define SPIF_CMD_READSTATUS3 0x15
 #define SPIF_CMD_WRITESTATUSEN 0x50
 #define SPIF_CMD_WRITESTATUS1 0x01
@@ -1458,3 +1462,29 @@ bool SPIF_ReadBlock(SPIF_HandleTypeDef *Handle, uint32_t BlockNumber, uint8_t *D
   SPIF_UnLock(Handle);
   return retVal;
 }
+
+
+#ifdef (SPIF_PLATFORM == SPIF_PLATFORM_OCTOSPI)
+
+/*
+  * @brief  Write QPI Enable command
+  * @note   Send the QPI-Enable command
+  * 
+  * @param  *Handle: Pointer to SPIF_HandleTypeDef structure
+  * 
+  * @retval bool: true or false
+  */
+ bool SPIF_QPI_Enable(SPIF_HandleTypeDef *Handle)
+ {
+   bool retVal = true;
+   uint8_t tx[1] = {SPIF_CMD_ENABLE_QPI_MODE};
+   SPIF_CsPin(Handle, 0);
+   if (SPIF_Transmit(Handle, tx, 1, 100) == false)
+   {
+     retVal = false;
+     dprintf("SPIF_QPI_Enable() Error\r\n");
+   }
+   SPIF_CsPin(Handle, 1);
+   return retVal;
+ }
+#endif 
