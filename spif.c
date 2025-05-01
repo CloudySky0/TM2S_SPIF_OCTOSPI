@@ -877,7 +877,7 @@ bool SPIF_ReadFn(SPIF_HandleTypeDef *Handle, uint32_t Address, uint8_t *Data, ui
 /************************************************************************************************************
 **************    Public Functions
 ************************************************************************************************************/
-#if SPIF_PLATFORM == SPIF_PLATFORM_OCTOSPI
+#if (SPIF_PLATFORM == SPIF_PLATFORM_OCTOSPI)
 /**
   * @brief  Initialize the SPIF.
   * @note   Enable and configure the OCTOSPI and Set GPIO as output for CS pin on the CubeMX
