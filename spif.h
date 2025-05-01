@@ -55,7 +55,7 @@ extern "C"
 #include <string.h>
 #include "NimaLTD.I-CUBE-SPIF_conf.h"
 
-#ifdef SPIF_PLATFORM == SPIF_PLATFORM_OCTOSPI
+#ifdef (SPIF_PLATFORM == SPIF_PLATFORM_OCTOSPI)
  #include "stm32u5xx_hal_ospi.h" 
 #else
  #include "spi.h"
@@ -126,7 +126,7 @@ typedef enum
 
 typedef struct
 {
-  #ifdef SPIF_PLATFORM == SPIF_PLATFORM_OCTOSPI
+  #ifdef (SPIF_PLATFORM == SPIF_PLATFORM_OCTOSPI)
     OSPI_HandleTypeDef      *HOspi;
   #else
     SPI_HandleTypeDef       *HSpi;
@@ -149,7 +149,7 @@ typedef struct
 /************************************************************************************************************
 **************    Public Functions
 ************************************************************************************************************/
-#if SPIF_PLATFORM == SPIF_PLATFORM_OCTOSPI
+#if (SPIF_PLATFORM == SPIF_PLATFORM_OCTOSPI)
 bool SPIF_OCTOSPI_Init(SPIF_HandleTypeDef *Handle, OSPI_HandleTypeDef *HOspi, GPIO_TypeDef *Gpio, uint16_t Pin);
 #else
 bool SPIF_Init(SPIF_HandleTypeDef *Handle, SPI_HandleTypeDef *HSpi, GPIO_TypeDef *Gpio, uint16_t Pin);
